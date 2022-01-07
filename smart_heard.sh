@@ -5,7 +5,7 @@
 # Smart List for fsq
 # Budd Churchward WB7FHC
 # email: wb7fhc@arrl.net
-V_DATE="01/06/21"
+V_DATE="01/06/22"
 #
 # Run this script in a terminal window while Flidigi FSQ is also
 # running. Make sure that you have enabled the Heard Log in FSQ
