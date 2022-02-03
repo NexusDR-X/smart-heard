@@ -20,7 +20,7 @@ Pick either Easy or Manual Installation.
 
 	If this is your first time installing smart-heard, or if you want to overwrite your existing callsign-to-names mapping file and use the downloaded file instead, then also run this command:
 	
-		cp smart-heard/*.{csv,dat} WB7FHC/
+		cp smart-heard/*.csv WB7FHC/
 
 ### Configure Fldigi
 
