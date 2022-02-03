@@ -15,8 +15,9 @@ SCRIPT_PATH="${SMART_HEARD_ROOT}/smart_heard.sh"
 
 # Install latest script and files
 cp -f smart-heard/*.sh ${SMART_HEARD_ROOT}/
+cp -f smart-heard/*.skin ${SMART_HEARD_ROOT}/
 cp -f smart-heard/*.desktop $HOME/.local/share/applications/
-sudo cp -f smart-heard/*.{jpg,png} /usr/local/share/pixmaps/
+sudo cp -f smart-heard/*.{jpg,png} /usr/share/pixmaps/
 # When the user runs the smart heard script for the first time after updating, 
 # it'll ask the user whether to overwrite their existing CSV file with the 
 # downloaded CSV file. So, the following line is commented out.
@@ -26,33 +27,49 @@ sudo cp -f smart-heard/*.{jpg,png} /usr/local/share/pixmaps/
 # Add smart_heard.sh to Fldigi autostart if it's not already set up.
 # Check "normal" (~/.fldigi), left (~/.fldigi-left), and right (~/.fldigi-right) 
 # autostart settings
-#for SIDE in '' -left -right
-#do
-#	# Proceed only if fldigi config file exists.
-#	[[ -s $HOME/.fldigi${SIDE}/fldigi_def.xml ]] || continue
-#	# Check if smart_heard autostart already configured
-#	grep -q "AUTO_PROG.*smart_heard" $HOME/.fldigi${SIDE}/fldigi_def.xml && continue
-#	# smart_heard not in one of the autostart slots.
-#	# There are 3 autostart slots in Fldigi. Look for an open slot.
-#	ADDED=false
-#	for I in $(seq 1 3)
-#	do
-#		if grep -q "AUTO_PROG${I}_PATHNAME><" $HOME/.fldigi${SIDE}/fldigi_def.xml
-#		then
-#			# Found an open autostart slot. Insert smart_heard.sh
-#           $SCRIPT_PATH="$SCRIPT_PATH $SIDE"
-#			sed -i \
-#				-e "s/<AUTO_PROG${I}_PATHNAME></<AUTO_PROG${I}_PATHNAME>$SCRIPT_PATH</" \
-#				-e "s/<PROG${I}_AUTO_ENABLE>.*</<PROG${I}_AUTO_ENABLE>1</" \
-#			   $HOME/.fldigi${SIDE}/fldigi_def.xml
-#			ADDED=true
-#			break
-#		fi
-#	done
-#	if [[ $ADDED == false ]]
-#   then
-#        echo >&2 "WARNING: No open autostart slot to add smart_heard.sh to Fldigi${SIDE}!"
-#        echo >&2 "Add smart_heard manually to Fldigi's autostart configuration."
-#    fi
-#done
+AUTOSTART="lxterminal -e $SCRIPT_PATH"
+ADDED=false
+for SIDE in '' -left -right
+do
+	# Proceed only if fldigi config file exists.
+	[[ -s $HOME/.fldigi${SIDE}/fldigi_def.xml ]] || continue
+	# Check if smart_heard autostart already configured
+	if grep -q -E "AUTO_PROG.*${SCRIPT_PATH}" $HOME/.fldigi${SIDE}/fldigi_def.xml
+	then
+		ADDED=true
+		continue
+	fi
+	# smart_heard not in one of the autostart slots.
+	# There are 3 autostart slots in Fldigi. Look for an open slot.
+	for I in $(seq 1 3)
+	do
+		if grep -q "AUTO_PROG${I}_PATHNAME><" $HOME/.fldigi${SIDE}/fldigi_def.xml
+		then
+			# Found an open autostart slot. Insert smart_heard.sh
+			# Add 'right' argument if we're processing the right Fldigi configuration
+			[[ $SIDE =~ right ]] && $AUTOSTART="$AUTOSTART right"
+			sed -i \
+				-e "s/<AUTO_PROG${I}_PATHNAME></<AUTO_PROG${I}_PATHNAME>${AUTOSTART}</" \
+				-e "s/<PROG${I}_AUTO_ENABLE>.*</<PROG${I}_AUTO_ENABLE>1</" \
+			   $HOME/.fldigi${SIDE}/fldigi_def.xml
+			ADDED=true
+			break
+		fi
+	done
+	if [[ $ADDED == false ]]
+   then
+   	MSG="WARNING: No open autostart slot found to add smart_heard.sh to Fldigi${SIDE}!\nAdd smart_heard manually to Fldigi's autostart configuration."
+		if xhost &>/dev/null
+		# We have an X session, so it's safe to use yad
+		then
+			yad --center --title="smart_heard.sh installation WARNING" --info --borders=20 \
+				--buttons-layout=center --text-align=center \
+				--text="<big><b>${MSG}</b></big>\n" \
+				--button="OK":0
+		else
+			# X is not running. Print to console
+			  echo -e >&2 "$MSG"
+		fi
+	fi
+done
 

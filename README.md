@@ -38,7 +38,7 @@ If you want to automatically run smart-heard whenever Fldigi starts, follow thes
 
 	You'll notice 3 fields, labeled __Prog 1:__, __Prog 2:__, __Prog 3:__. Pick one of those fields that is empty, and add this text into the field:
 	
-		/home/pi/WB7FHC/smart_heard.sh
+		lxterminal /home/pi/WB7FHC/smart_heard.sh
 
 1. Check the __Enable__ box.
 1. Click the __Test__ button and make sure the script launches. If it works, close the smart-heard script.
@@ -68,7 +68,8 @@ If you configured Fldigi autostart in the previous step, launch Fldigi and smart
 
 - __[DN Arrow]__ … decrease the update interval to minimum of 5 seconds
 
-### TEXT COLORS:
+### DEFAULT TEXT COLORS:
+
 - __YELLOW__ ... station heard less than 10 minutes ago
 
 - __GREEN__  ... station heard less than 1 hour ago
