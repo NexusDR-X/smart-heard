@@ -42,6 +42,7 @@ If you want to automatically run smart-heard whenever Fldigi starts, follow thes
 
 1. Check the __Enable__ box.
 1. Click the __Test__ button and make sure the script launches. If it works, close the smart-heard script.
+1. Click __Save__, then __Close__.
 
 ## Running the script
 
