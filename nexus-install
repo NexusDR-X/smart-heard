@@ -16,8 +16,8 @@ SCRIPT_PATH="${SMART_HEARD_ROOT}/smart_heard.sh"
 # Install latest script and files
 cp -f smart-heard/*.sh ${SMART_HEARD_ROOT}/
 cp -f smart-heard/*.skin ${SMART_HEARD_ROOT}/
-cp -f smart-heard/*.desktop $HOME/.local/share/applications/
-sudo cp -f smart-heard/*.{jpg,png} /usr/share/pixmaps/
+#cp -f smart-heard/*.desktop $HOME/.local/share/applications/
+sudo cp -f smart-heard/*.png /usr/share/pixmaps/
 # When the user runs the smart heard script for the first time after updating, 
 # it'll ask the user whether to overwrite their existing CSV file with the 
 # downloaded CSV file. So, the following line is commented out.
