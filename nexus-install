@@ -5,7 +5,7 @@
 # It moves the files and scripts into the correct locations and runs any other 
 # housekeeping scripts.
 
-VERSION="1.0.0"
+VERSION="1.0.1"
 
 #----------------------------------------------------------------------------
 # Make a WB7FHC folder in the user's home folder if it doesn't already exist
@@ -16,12 +16,9 @@ SCRIPT_PATH="${SMART_HEARD_ROOT}/smart_heard.sh"
 # Install latest script and files
 cp -f smart-heard/*.sh ${SMART_HEARD_ROOT}/
 cp -f smart-heard/*.skin ${SMART_HEARD_ROOT}/
+cp -f smart-heard/*.names ${SMART_HEARD_ROOT}/
 #cp -f smart-heard/*.desktop $HOME/.local/share/applications/
 sudo cp -f smart-heard/*.png /usr/share/pixmaps/
-# When the user runs the smart heard script for the first time after updating, 
-# it'll ask the user whether to overwrite their existing CSV file with the 
-# downloaded CSV file. So, the following line is commented out.
-# cp -f smart-heard/*.csv ${SMART_HEARD_ROOT}/
 
 # Stop Fldigi and smart_heard.sh if running
 (pgrep -x fldigi &>/dev/null) && pkill -SIGTERM -x fldigi

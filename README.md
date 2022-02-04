@@ -14,40 +14,33 @@ Pick either Easy or Manual Installation.
 
 		cd ~
 		rm -rf smart-heard/
-		mkdir -p ~/WB7FHC
+		mkdir -p WB7FHC
 		git clone https://github.com/NexusDR-X/smart-heard
-		cp smart-heard/*.sh WB7FHC/
-
-	If this is your first time installing smart-heard, or if you want to overwrite your existing callsign-to-names mapping file and use the downloaded file instead, then also run this command:
-	
-		cp smart-heard/*.csv WB7FHC/
+		smart-heard/nexus-install
 
 ### Configure Fldigi
 
-1. Run Fldigi (right or left)
-1. Select __Configure > Config Dialog > Modem > FSQ__
-1. Click __Enable__ next to the __Heard log fsq_heard_log.txt__ field.
-1. Click __Save__, click __Close__.
-1. Click __File > Text Capture__, and check the __Log all RX/TX text__.
-1. Repeat this procedure for the other Fldigi (right or left) instances as desired.
+Installing FSQ Smart Heard by the Easy or Manual installation methods above will automatically make 3 changes in each in instance of Fldigi (left, right) if those changes have not been already made:
 
-#### OPTIONAL: Autostart the smart-heard script when Fldigi starts
+- RX/TX logging is enabled
 
-If you want to automatically run smart-heard whenever Fldigi starts, follow these steps.
-
-1. In Fldigi: __Configure > Config Dialog > Misc > Autostart__
-
-	You'll notice 3 fields, labeled __Prog 1:__, __Prog 2:__, __Prog 3:__. Pick one of those fields that is empty, and add this text into the field:
+	This setting is in Fldigi __File > Text Capture >  Log all RX/TX text [checked]__
 	
-		lxterminal /home/pi/WB7FHC/smart_heard.sh
+- FSQ Heard logging is enabled
 
-1. Check the __Enable__ box.
-1. Click the __Test__ button and make sure the script launches. If it works, close the smart-heard script.
-1. Click __Save__, then __Close__.
+	This setting is in Fldigi __Configure > Config Dialog > Modem > FSQ__
+	
+- Smart Heard autostart added
+
+	This setting is in Fldigi __Configure > Config Dialog > Misc > Autostart__
 
 ## Running the script
 
-If you configured Fldigi autostart in the previous step, launch Fldigi and smart-heard should start. Otherwise, select __Smart Heard__ from the __Raspberry > Hamradio__ menu.
+If installed as per previous instructions, smart_heard will automatically start when you run Fldigi. You can start it manually from a Terminal by running this command:
+
+	WB7FHC/smart_heard.sh
+
+Only one instance of `smart_heard.sh` will run at a time.
 
 ### KEYBOARD COMMANDS
 
