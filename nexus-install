@@ -25,7 +25,7 @@ sudo cp -f smart-heard/*.png /usr/share/pixmaps/
 
 # Stop Fldigi and smart_heard.sh if running
 (pgrep -x fldigi &>/dev/null) && pkill -SIGTERM -x fldigi
-(pgrep -x $(basename $0) &>/dev/null) && pkill -SIGTERM -x $(basename $0)
+(pgrep -x smart_heard.sh &>/dev/null) && pkill -SIGTERM -x smart_heard.sh
 
 #----------------------------------------------------------------------------
 # Add smart_heard.sh to Fldigi autostart if it's not already set up.
@@ -41,6 +41,8 @@ do
 	then
 		echo >&2 "Enabling RX/TX logging in fldigi${SIDE}"
 		sed -i -e "s/^log_enabled:0/log_enabled:1/" $HOME/.fldigi${SIDE}/fldigi.prefs
+	else
+		echo >&2 "RX/TX logging already enabled in fldigi${SIDE}"
 	fi
 
 	###################################################
@@ -69,6 +71,7 @@ do
 	ADDED_AUTOSTART=false
 	if grep -q -E "AUTO_PROG.*${SCRIPT_PATH}" $HOME/.fldigi${SIDE}/fldigi_def.xml
 	then
+		echo >&2 "smart_heard already in autostart in fldigi${SIDE}"
 		ADDED_AUTOSTART=true
 		continue
 	fi
