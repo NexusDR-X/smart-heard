@@ -50,8 +50,8 @@ do
 			[[ $SIDE =~ right ]] && $SCRIPT_PATH="\"$SCRIPT_PATH right\"" || \
 				$SCRIPT_PATH="\"$SCRIPT_PATH\"" 
 			sed -i \
-				-e "s/<AUTO_PROG${I}_PATHNAME></<AUTO_PROG${I}_PATHNAME>${LXTERM}${SCRIPT_PATH} </" \
-				-e "s/<PROG${I}_AUTO_ENABLE>.*</<PROG${I}_AUTO_ENABLE>1</" \
+				-e "s+<AUTO_PROG${I}_PATHNAME><+<AUTO_PROG${I}_PATHNAME>${LXTERM}${SCRIPT_PATH}<+" \
+				-e "s+<PROG${I}_AUTO_ENABLE>.*<+<PROG${I}_AUTO_ENABLE>1<+" \
 			   $HOME/.fldigi${SIDE}/fldigi_def.xml
 			ADDED=true
 			break
