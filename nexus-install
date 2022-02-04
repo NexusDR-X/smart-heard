@@ -30,7 +30,7 @@ sudo cp -f smart-heard/*.png /usr/share/pixmaps/
 # Add smart_heard.sh to Fldigi autostart if it's not already set up.
 # Check "normal" (~/.fldigi), left (~/.fldigi-left), and right (~/.fldigi-right) 
 # autostart settings
-LXTERM="lxterminal --geometry=50x30 -e "
+LXTERM="lxterminal --geometry=52x30 -e "
 ADDED=false
 for SIDE in '' -left -right
 do

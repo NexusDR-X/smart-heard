@@ -125,6 +125,19 @@ SHOW_RADIO=false    # if true heard list will show L and R s
 SHOW_RADIO=$2       # if true heard list will show L and R s
 ####################################################
 
+#############################
+# CHECK IF AN INSTANCE OF
+# THIS SCRIPT IS ALREADY
+# RUNNING. EXIT THIS INSTANCE
+# IF YES, AND FOCUS THE 
+# ALREADY RUNNING INSTANCE
+if pidof -o %PPID -x $(basename "$0") >/dev/null
+then
+	# An instance is already running. Give it focus.
+	wmctrl -R "Smart List"
+	exit 0
+fi
+
 LR_CHANNEL=$1       # left or right from startup argument
 
 SHOW_HOW_HOT=false  # if true CPU temp will show in title bar
@@ -1217,25 +1230,6 @@ function spotNewGuy {
   refreshList
   lastGuy="nobody"
 }
-
-#############################
-# CHECK IF AN INSTANCE OF
-# THIS SCRIPT IS ALREADY
-# RUNNING
-function checkAlreadyRunning () {
-	if pidof -o %PPID -x $(basename "$0") >/dev/null
-	then
-		# An instance is already running. Give it focus.
-		wmctrl -R "$(basename "$0")"
-		exit 0
-	fi
-}
-
-#############################
-# MAIN PROGRAM
-#
-# Ensure only one instance of this script is running.
-checkAlreadyRunning
 
 #############################
 # OUR MAIN LOOP RUNS FOREVER
