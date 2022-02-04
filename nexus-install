@@ -23,6 +23,9 @@ sudo cp -f smart-heard/*.png /usr/share/pixmaps/
 # downloaded CSV file. So, the following line is commented out.
 # cp -f smart-heard/*.csv ${SMART_HEARD_ROOT}/
 
+# Stop Fldigi if running
+(pgrep -x fldigi &>/dev/null) && pkill -SIGTERM -x fldigi
+
 #----------------------------------------------------------------------------
 # Add smart_heard.sh to Fldigi autostart if it's not already set up.
 # Check "normal" (~/.fldigi), left (~/.fldigi-left), and right (~/.fldigi-right) 
@@ -31,6 +34,13 @@ LXTERM="lxterminal -e "
 ADDED=false
 for SIDE in '' -left -right
 do
+	# Enable RX/TX logging if not already enabled
+	if [[ -s $HOME/.fldigi${SIDE}/fldigi.prefs ]] && \
+		grep -q -E "^log_enabled:0" $HOME/.fldigi${SIDE}/fldigi.prefs
+	then
+		echo >&2 "Enabling RX/TX logging in fldigi${SIDE}"
+		sed -i -e "s/^log_enabled:0/log_enabled:1/" $HOME/.fldigi${SIDE}/fldigi.prefs
+	fi
 	# Proceed only if fldigi config file exists.
 	[[ -s $HOME/.fldigi${SIDE}/fldigi_def.xml ]] || continue
 	# Check if smart_heard autostart already configured
@@ -47,6 +57,7 @@ do
 		then
 			# Found an open autostart slot. Insert smart_heard.sh
 			# Add 'right' argument if we're processing the right Fldigi configuration
+			echo >&2 "Adding smart_heard to autostart in fldigi${SIDE}"
          if [[ $SIDE =~ right ]]
          then
             SCRIPT_PATH="\"$SCRIPT_PATH right\""

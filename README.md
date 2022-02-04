@@ -28,6 +28,7 @@ Pick either Easy or Manual Installation.
 1. Select __Configure > Config Dialog > Modem > FSQ__
 1. Click __Enable__ next to the __Heard log fsq_heard_log.txt__ field.
 1. Click __Save__, click __Close__.
+1. Click __File > Text Capture__, and check the __Log all RX/TX text__.
 1. Repeat this procedure for the other Fldigi (right or left) instances as desired.
 
 #### OPTIONAL: Autostart the smart-heard script when Fldigi starts
