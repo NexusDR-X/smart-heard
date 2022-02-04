@@ -8,7 +8,7 @@ Pick either the Easy or Manual Installation.
 - Click __Raspberry > Hamradio > Update Pi and Ham Apps__.
 - Check __smart-heard__, click __OK__.
 
-### Manual Installation (for Nexus DR-X beta testers)
+### Manual Installation (for Nexus DR-X users who are testing Smart Heard)
 - Make sure your Pi is connected to the Internet.
 - Open a Terminal and run these commands:
 
