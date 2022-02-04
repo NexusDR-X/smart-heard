@@ -509,7 +509,7 @@ function showSplash {
 seedNames=$COMMON_DIR/seed.names
   if [[ -f $seedNames ]]; then
 yad --image dialog-question\
-    --title Alert\
+    --title "Smart List Alert"\
     --button=YES:0\
     --button=NO:1\
     --posy=200\
