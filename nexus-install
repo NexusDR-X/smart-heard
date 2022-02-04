@@ -23,8 +23,9 @@ sudo cp -f smart-heard/*.png /usr/share/pixmaps/
 # downloaded CSV file. So, the following line is commented out.
 # cp -f smart-heard/*.csv ${SMART_HEARD_ROOT}/
 
-# Stop Fldigi if it is running
+# Stop Fldigi and smart_heard.sh if running
 (pgrep -x fldigi &>/dev/null) && pkill -SIGTERM -x fldigi
+(pgrep -x $(basename $0) &>/dev/null) && pkill -SIGTERM -x $(basename $0)
 
 #----------------------------------------------------------------------------
 # Add smart_heard.sh to Fldigi autostart if it's not already set up.
