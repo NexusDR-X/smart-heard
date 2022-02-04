@@ -27,7 +27,7 @@ sudo cp -f smart-heard/*.png /usr/share/pixmaps/
 # Add smart_heard.sh to Fldigi autostart if it's not already set up.
 # Check "normal" (~/.fldigi), left (~/.fldigi-left), and right (~/.fldigi-right) 
 # autostart settings
-AUTOSTART="lxterminal -e $SCRIPT_PATH"
+LXTERM="lxterminal -e "
 ADDED=false
 for SIDE in '' -left -right
 do
@@ -47,9 +47,10 @@ do
 		then
 			# Found an open autostart slot. Insert smart_heard.sh
 			# Add 'right' argument if we're processing the right Fldigi configuration
-			[[ $SIDE =~ right ]] && $AUTOSTART="$AUTOSTART right"
+			[[ $SIDE =~ right ]] && $SCRIPT_PATH="\"$SCRIPT_PATH right\"" || \
+				$SCRIPT_PATH="\"$SCRIPT_PATH\"" 
 			sed -i \
-				-e "s/<AUTO_PROG${I}_PATHNAME></<AUTO_PROG${I}_PATHNAME>${AUTOSTART}</" \
+				-e "s/<AUTO_PROG${I}_PATHNAME></<AUTO_PROG${I}_PATHNAME>${LXTERM}${SCRIPT_PATH} </" \
 				-e "s/<PROG${I}_AUTO_ENABLE>.*</<PROG${I}_AUTO_ENABLE>1</" \
 			   $HOME/.fldigi${SIDE}/fldigi_def.xml
 			ADDED=true
