@@ -34,7 +34,7 @@ Installing __FSQ Smart Heard__ by the Easy or Manual installation methods above 
 
 If installed as per the instructions above, __smart_heard.sh__ will automatically start when you run Fldigi. You can start it manually from a Terminal by running this command:
 
-	WB7FHC/smart_heard.sh
+	~/WB7FHC/smart_heard.sh
 
 Only one instance of `smart_heard.sh` will run at a time.
 
