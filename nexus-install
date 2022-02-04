@@ -5,7 +5,7 @@
 # It moves the files and scripts into the correct locations and runs any other 
 # housekeeping scripts.
 
-VERSION="0.0.1"
+VERSION="1.0.0"
 
 #----------------------------------------------------------------------------
 # Make a WB7FHC folder in the user's home folder if it doesn't already exist
@@ -23,17 +23,17 @@ sudo cp -f smart-heard/*.png /usr/share/pixmaps/
 # downloaded CSV file. So, the following line is commented out.
 # cp -f smart-heard/*.csv ${SMART_HEARD_ROOT}/
 
-# Stop Fldigi if running
+# Stop Fldigi if it is running
 (pgrep -x fldigi &>/dev/null) && pkill -SIGTERM -x fldigi
 
 #----------------------------------------------------------------------------
 # Add smart_heard.sh to Fldigi autostart if it's not already set up.
 # Check "normal" (~/.fldigi), left (~/.fldigi-left), and right (~/.fldigi-right) 
-# autostart settings
+# fldigi instance autostart settings
 LXTERM="lxterminal --geometry=52x30 -e "
-ADDED=false
 for SIDE in '' -left -right
 do
+	###################################################
 	# Enable RX/TX logging if not already enabled
 	if [[ -s $HOME/.fldigi${SIDE}/fldigi.prefs ]] && \
 		grep -q -E "^log_enabled:0" $HOME/.fldigi${SIDE}/fldigi.prefs
@@ -41,12 +41,34 @@ do
 		echo >&2 "Enabling RX/TX logging in fldigi${SIDE}"
 		sed -i -e "s/^log_enabled:0/log_enabled:1/" $HOME/.fldigi${SIDE}/fldigi.prefs
 	fi
+
+	###################################################
 	# Proceed only if fldigi config file exists.
 	[[ -s $HOME/.fldigi${SIDE}/fldigi_def.xml ]] || continue
+
+	###################################################
+	# Enable FSQ heard log if not already enabled
+	if grep -q -E "<FSQ_ENABLE_HEARD_LOG>1<" $HOME/.fldigi${SIDE}/fldigi_def.xml && \
+		grep -q -E "<FSQ_HEARD_LOG>fsq_heard_log.txt<" $HOME/.fldigi${SIDE}/fldigi_def.xml
+	then
+		# FSQ heard log already enabled
+		echo >&2 "FSQ heard log already enabled on fldigi${SIDE}"
+		continue
+	else
+		# Enable FSQ heard log and set log file name
+		echo >&2 "Enabling FSQ heard log on fldigi${SIDE}"
+		sed -i \
+			-e "s+<FSQ_ENABLE_HEARD_LOG>.*<+<FSQ_ENABLE_HEARD_LOG>1<+" \
+			-e "s+<FSQ_HEARD_LOG>.*<+<FSQ_HEARD_LOG>fsq_heard_log.txt<+" \
+			   $HOME/.fldigi${SIDE}/fldigi_def.xml	
+	fi
+
+	###################################################
 	# Check if smart_heard autostart already configured
+	ADDED_AUTOSTART=false
 	if grep -q -E "AUTO_PROG.*${SCRIPT_PATH}" $HOME/.fldigi${SIDE}/fldigi_def.xml
 	then
-		ADDED=true
+		ADDED_AUTOSTART=true
 		continue
 	fi
 	# smart_heard not in one of the autostart slots.
@@ -60,19 +82,19 @@ do
 			echo >&2 "Adding smart_heard to autostart in fldigi${SIDE}"
          if [[ $SIDE =~ right ]]
          then
-            SCRIPT_PATH="\"$SCRIPT_PATH right\""
+            AUTOSTART="\"$SCRIPT_PATH right\""
          else
-            SCRIPT_PATH="\"$SCRIPT_PATH\""
+            AUTOSTART="\"$SCRIPT_PATH\""
          fi
 			sed -i \
-				-e "s+<AUTO_PROG${I}_PATHNAME><+<AUTO_PROG${I}_PATHNAME>${LXTERM}${SCRIPT_PATH}<+" \
+				-e "s+<AUTO_PROG${I}_PATHNAME><+<AUTO_PROG${I}_PATHNAME>${LXTERM}${AUTOSTART}<+" \
 				-e "s+<PROG${I}_AUTO_ENABLE>.*<+<PROG${I}_AUTO_ENABLE>1<+" \
 			   $HOME/.fldigi${SIDE}/fldigi_def.xml
-			ADDED=true
+			ADDED_AUTOSTART=true
 			break
 		fi
 	done
-	if [[ $ADDED == false ]]
+	if [[ $ADDED_AUTOSTART == false ]]
    then
    	MSG="WARNING: No open autostart slot found to add smart_heard.sh to Fldigi${SIDE}!\nAdd smart_heard manually to Fldigi's autostart configuration."
 		if xhost &>/dev/null
