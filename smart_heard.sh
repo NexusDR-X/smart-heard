@@ -5,7 +5,7 @@
 # Smart List for fsq
 # Budd Churchward WB7FHC
 # email: wb7fhc@arrl.net
-V_DATE="02/03/22.1"
+V_DATE="02/03/22.2"
 #
 # Run this script in a terminal window while Flidigi FSQ is also
 # running. Make sure that you have enabled the Heard Log in FSQ
@@ -99,9 +99,9 @@ V_DATE="02/03/22.1"
 #  seed.names     ... $seedNames
 #     optional file to import local calls and names
 #     located @  /home/pi/WB7FHC/seed.names
-#     if this file exists user will be asked to import it
-#     this file will copied to fsq_names.csv if user says yes
-#     if user says either yes or no it becomes seed.namesx
+#     If this file exists, user will be given choice to import it.
+#     If user says yes, this file will copied to fsq_names.csv .
+#     When user says either yes or no, it is renamed: seed.namesx
 #
 #  seed.namesx  (no variable)
 #     we rename this file after dialog box entry so that

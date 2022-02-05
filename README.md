@@ -122,9 +122,9 @@ Only one instance of `smart_heard.sh` will run at a time.
      
      optional file to import local calls and names
      located @  /home/pi/WB7FHC/seed.names
-     if this file exists user will be asked to import it
-     this file will copied to fsq_names.csv if user says yes
-     if user says either yes or no it becomes seed.namesx
+     If this file exists, user will be given choice to import it.
+     If user says yes, this file will copied to fsq_names.csv .
+     When user says either yes or no, it is renamed: seed.namesx
 
 - __seed.namesx__  (no variable)
      
