@@ -38,9 +38,9 @@ do
 		grep -q -E "^log_enabled:0" $HOME/.fldigi${SIDE}/fldigi.prefs
 	then
 		sed -i -e "s/^log_enabled:0/log_enabled:1/" $HOME/.fldigi${SIDE}/fldigi.prefs
-		echo >&2 "   RX/TX LOGGING: now enabled in fldigi${SIDE}"
+		echo >&2 "   RX/TX LOGGING: Now enabled in fldigi${SIDE}"
 	else
-		echo >&2 "   RX/TX LOGGING: already enabled in fldigi${SIDE}"
+		echo >&2 "   RX/TX LOGGING: Already enabled in fldigi${SIDE}"
 	fi
 
 	###################################################
@@ -53,7 +53,7 @@ do
 		grep -q -E "<FSQ_HEARD_LOG>fsq_heard_log.txt<" $HOME/.fldigi${SIDE}/fldigi_def.xml
 	then
 		# FSQ heard log already enabled
-		echo >&2 "   FSQ HEARD LOG: already enabled on fldigi${SIDE}"
+		echo >&2 "   FSQ HEARD LOG: Already enabled on fldigi${SIDE}"
 	else
 		# Enable FSQ heard log and set log file name
 		sed -i \
