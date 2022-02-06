@@ -13,6 +13,7 @@ Pick either the Easy or Manual Installation.
 - Open a Terminal and run these commands:
 
 		cd /usr/local/src/nexus
+		rm -rf smart-heard
 		git clone https://github.com/NexusDR-X/smart-heard
 		smart-heard/nexus-install
 
