@@ -8,7 +8,7 @@ Pick either the Easy or Manual Installation.
 - Click __Raspberry > Hamradio > Update Pi and Ham Apps__.
 - Check __smart-heard__, click __OK__.
 
-### Manual Installation (for Nexus DR-X users who are testing Smart Heard)
+### Manual Installation 
 - Make sure your Pi is connected to the Internet.
 - Open a Terminal and run these commands:
 
@@ -38,6 +38,14 @@ If installed as per the instructions above, __smart_heard.sh__ will automaticall
 	~/WB7FHC/smart_heard.sh
 
 Only one instance of `smart_heard.sh` will run at a time.
+
+### Disable autostart
+
+If you don't want Fldigi to autostart Smart Heard:
+
+- In Fldigi: __Configure > Config Dialog > Misc > Autostart__.
+- Locate the __Prog [1|2|3]__ line containing __smart_heard.sh__, then uncheck the corresponding __Enable__ box.
+- Click __Save__, then __Close__.
 
 ### KEYBOARD COMMANDS
 
